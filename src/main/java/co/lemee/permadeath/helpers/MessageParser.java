@@ -1,7 +1,7 @@
-package in.gracel.deathban.helpers;
+package co.lemee.permadeath.helpers;
 
-import in.gracel.deathban.config.Config;
-import in.gracel.deathban.DeathBan;
+import co.lemee.permadeath.config.Config;
+import co.lemee.permadeath.PermaDeathMod;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,8 +29,9 @@ public class MessageParser {
     }
 
     public static Component firstTimeMessage(ServerPlayer joinedPlayer) {
+        String modName = ModHelper.getModNameForModId(PermaDeathMod.MOD_ID);
         String message = String.format("[%s] §bWelcome %s! This server is currently running §4%s§r§b. Upon death, you will be banned for §6%s§r§b.",
-                DeathBan.MOD_NAME, joinedPlayer.getName().getString(), DeathBan.MOD_NAME, getBanTimeFromConfig());
+                modName, joinedPlayer.getName().getString(), modName, getBanTimeFromConfig());
         return Component.translatable(message);
     }
 
@@ -59,10 +60,10 @@ public class MessageParser {
     }
 
     public static String getBanTimeFromConfig() {
-        long weeks = Config.weekTime.get();
-        long days = Config.dayTime.get();
-        long hours = Config.hourTime.get();
-        long minutes = Config.minuteTime.get();
+        long weeks = Config.CONFIG.weekTime.get();
+        long days = Config.CONFIG.dayTime.get();
+        long hours = Config.CONFIG.hourTime.get();
+        long minutes = Config.CONFIG.minuteTime.get();
 
         Long[] concatenatedDate = {minutes, hours, days, weeks};
         String[] timeUnits = {" minute(s)", " hour(s)", " day(s)", " week(s)"};

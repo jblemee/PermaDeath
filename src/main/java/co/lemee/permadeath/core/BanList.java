@@ -1,8 +1,9 @@
-package in.gracel.deathban.core;
+package co.lemee.permadeath.core;
 
+import co.lemee.permadeath.helpers.ModHelper;
 import com.mojang.authlib.GameProfile;
-import in.gracel.deathban.DeathBan;
-import in.gracel.deathban.helpers.MessageParser;
+import co.lemee.permadeath.PermaDeathMod;
+import co.lemee.permadeath.helpers.MessageParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,7 +24,7 @@ public class BanList {
     public void addToBanList(MinecraftServer server, GameProfile deadPlayer, Date expire, String reason) {
         if (!userBanList.isBanned(deadPlayer)) {
             ServerPlayer serverplayer = server.getPlayerList().getPlayer(deadPlayer.getId());
-            UserBanListEntry entry = new UserBanListEntry(deadPlayer, new Date(), DeathBan.MOD_NAME, expire, reason);
+            UserBanListEntry entry = new UserBanListEntry(deadPlayer, new Date(), ModHelper.getModNameForModId(PermaDeathMod.MOD_ID), expire, reason);
             userBanList.add(entry);
             LocalDateTime ldtCurr = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
             LocalDateTime ldtExpire = LocalDateTime.ofInstant(expire.toInstant(), ZoneId.systemDefault());
