@@ -1,7 +1,7 @@
-package in.gracel.deathban.mixin;
+package co.lemee.permadeath.mixin;
 
 import com.mojang.authlib.GameProfile;
-import in.gracel.deathban.helpers.MessageParser;
+import co.lemee.permadeath.helpers.MessageParser;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.server.players.UserBanList;
@@ -30,13 +30,13 @@ public class PlayerListMixin {
     @Shadow
     private UserBanList bans = new UserBanList(USERBANLIST_FILE);
 
-    @Inject(at = @At("HEAD"), method = "Lnet/minecraft/server/players/PlayerList;canPlayerLogin(Ljava/net/SocketAddress;Lcom/mojang/authlib/GameProfile;)Lnet/minecraft/network/chat/Component;", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "canPlayerLogin(Ljava/net/SocketAddress;Lcom/mojang/authlib/GameProfile;)Lnet/minecraft/network/chat/Component;", cancellable = true)
     private void canPlayerLogin(SocketAddress pSocketAddress, GameProfile pGameProfile, CallbackInfoReturnable<Component> cir) {
         if (this.bans.isBanned(pGameProfile)) {
             UserBanListEntry userbanlistentry = this.bans.get(pGameProfile);
-            if (userbanlistentry.getExpires() != null) {
+            if (userbanlistentry != null && userbanlistentry.getExpires() != null) {
                 LocalDateTime ldtCurr = LocalDateTime.ofInstant(new Date().toInstant(), ZoneId.systemDefault());
-                LocalDateTime ldtExpire = LocalDateTime.ofInstant(bans.get(pGameProfile).getExpires().toInstant(), ZoneId.systemDefault());
+                LocalDateTime ldtExpire = LocalDateTime.ofInstant(userbanlistentry.getExpires().toInstant(), ZoneId.systemDefault());
                 Component component = MessageParser.banMessage(userbanlistentry.getReason(),
                         MessageParser.getTimeRemaining(ldtCurr, ldtExpire));
                 cir.setReturnValue(component);

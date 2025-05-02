@@ -1,4 +1,4 @@
-package in.gracel.deathban.helpers;
+package co.lemee.permadeath.helpers;
 
 import org.apache.commons.lang3.time.DateUtils;
 
