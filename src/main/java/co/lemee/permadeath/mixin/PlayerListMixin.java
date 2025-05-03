@@ -24,11 +24,11 @@ public class PlayerListMixin {
 
     @Final
     @Shadow
-    public static File USERBANLIST_FILE = new File("banned-players.json");
+    public static final File USERBANLIST_FILE = new File("banned-players.json");
 
     @Final
     @Shadow
-    private UserBanList bans = new UserBanList(USERBANLIST_FILE);
+    private final UserBanList bans = new UserBanList(USERBANLIST_FILE);
 
     @Inject(at = @At("HEAD"), method = "canPlayerLogin(Ljava/net/SocketAddress;Lcom/mojang/authlib/GameProfile;)Lnet/minecraft/network/chat/Component;", cancellable = true)
     private void canPlayerLogin(SocketAddress pSocketAddress, GameProfile pGameProfile, CallbackInfoReturnable<Component> cir) {
