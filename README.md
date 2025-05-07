@@ -34,6 +34,15 @@ Hours = 0
 Minutes = 0
 ```
 
+Command
+-----------
+Operator can change the death expiration:
+
+```
+/pd add <DeadPlayer> <days>
+/pd sub <DeadPlayer> <days>
+```
+
 Screenshots
 -----------
 
