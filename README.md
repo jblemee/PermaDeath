@@ -46,7 +46,7 @@ Operator can change the death expiration:
 Screenshots
 -----------
 
-![image](./welcome_message.png)\
+![image](welcome_message.png)\
 A welcome message is sent to the player at login
 
 
